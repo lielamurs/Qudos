@@ -11,6 +11,11 @@
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
         <!-- Styles -->
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
         <style>
             html, body {
                 background-color: #fff;
@@ -35,18 +40,11 @@
                 position: relative;
             }
 
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
+            .title > a{
                 font-size: 84px;
+                text-decoration: none;
+                color: #636b6f;
+                padding-right: 100%;
             }
 
             .links > a {
@@ -58,38 +56,43 @@
                 text-decoration: none;
                 text-transform: uppercase;
             }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
         </style>
     </head>
     <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-                        <a href="{{ route('register') }}">Register</a>
-                    @endauth
-                </div>
-            @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Qudos
-                </div>
-
-                <div class="links">
-                    <a href="{{route('home')}}">Home</a>
-                    <a href="{{route('news')}}">News</a>
-                    <a href="{{route('suggestions')}}">Suggestions</a>
-                    <a href="{{route('feedback')}}">Feedback</a>
-                    <a href="{{route('about')}}">About me</a>
-                </div>
-            </div>
+    <div class="top-left links">
+        <div class="title">
+            <a href="{{ url('/') }}">Qudos</a>
         </div>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+            </div>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav links">
+                    <li><a href="{{route('news')}}">News</a></li>
+                    <li><a href="{{route('suggestions')}}">Suggestions</a></li>
+                    <li><a href="{{route('feedback')}}">Feedback</a></li>
+                    <li><a href="{{route('about')}}">About me</a></li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    @if (Route::has('login'))
+                            @auth
+                                <li><a href="{{ url('/home') }}">Home</a></li>
+                                @else
+                                    <li><a href="{{ route('login') }}">Login</a></li>
+                                    <li><a href="{{ route('register') }}">Register</a></li>
+                                    @endauth
+
+                    @endif
+                </ul>
+                </div>
+        </nav>
+    </div>
     </body>
 </html>

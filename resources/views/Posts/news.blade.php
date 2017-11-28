@@ -1,93 +1,98 @@
 <!doctype html>
 <html lang="{{ app()->getLocale() }}">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+    <title>Laravel</title>
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
-                margin: 0;
-            }
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
-            .full-height {
-                height: 100vh;
-            }
+    <!-- Styles -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-            .position-ref {
-                position: relative;
-            }
+    <style>
+        html, body {
+            background-color: #fff;
+            color: #636b6f;
+            font-family: 'Raleway', sans-serif;
+            font-weight: 100;
+            height: 100vh;
+            margin: 0;
+        }
 
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
+        .full-height {
+            height: 100vh;
+        }
 
-            .content {
-                text-align: center;
-            }
+        .flex-center {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+        }
 
-            .title {
-                font-size: 84px;
-            }
+        .position-ref {
+            position: relative;
+        }
 
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
+        .title > a{
+            font-size: 84px;
+            text-decoration: none;
+            color: #636b6f;
+            padding-right: 100%;
+        }
 
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-                        <a href="{{ route('register') }}">Register</a>
-                    @endauth
-                </div>
-            @endif
+        .links > a {
+            color: #636b6f;
+            padding: 0 25px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: .1rem;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+<div class="top-left links">
+    <div class="title">
+        <a href="{{ url('/') }}">Qudos</a>
+    </div>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
 
-            <div class="content">
-                <div class="title m-b-md">
-                    Qudos
-                </div>
-
-                <div class="links">
-                    <a href="{{route('home')}}">Home</a>
-                    <a href="{{route('news')}}">News</a>
-                    <a href="{{route('suggestions')}}">Suggestions</a>
-                    <a href="{{route('feedback')}}">Feedback</a>
-                    <a href="{{route('about')}}">About me</a>
-                </div>
-            </div>
         </div>
-    </body>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav links">
+                <li><a href="{{route('news')}}">News</a></li>
+                <li><a href="{{route('suggestions')}}">Suggestions</a></li>
+                <li><a href="{{route('feedback')}}">Feedback</a></li>
+                <li><a href="{{route('about')}}">About me</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                @if (Route::has('login'))
+                    @auth
+                        <li><a href="{{ url('/home') }}">Home</a></li>
+                        @else
+                            <li><a href="{{ route('login') }}">Login</a></li>
+                            <li><a href="{{ route('register') }}">Register</a></li>
+                            @endauth
+
+                        @endif
+            </ul>
+        </div>
+    </nav>
+</div>
+</body>
 </html>

@@ -16,9 +16,15 @@
                     @endif
 
                         @if(session()->has('message'))
-                            <div class="alert alert-danger">
-                                {{ session()->get('message') }}
-                            </div>
+                            @if(session()->get('message') == 'Invalid file format!')
+                                <div class="alert alert-danger">
+                                    {{ session()->get('message') }}
+                                </div>
+                            @else
+                                <div class="alert alert-success">
+                                    {{ session()->get('message') }}
+                                </div>
+                            @endif
                         @endif
 
                         <form class="form-horizontal" method="POST" action="{{ route('news.submit') }}" enctype="multipart/form-data">

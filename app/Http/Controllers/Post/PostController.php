@@ -28,7 +28,7 @@ class PostController extends Controller
             }
             $imageName = time().'.'.$request->file('image')->getClientOriginalExtension();
 
-            DB::table('news')->insert(
+            DB::table('suggestions')->insert(
                 ['title' => $request['title'], 'content' => $request['content'] , 'image' => $imageName, 'user_id' =>  $request['user'] ]
             );
 
@@ -36,7 +36,7 @@ class PostController extends Controller
 
             return redirect()->back()->with('message', 'Upload successful!');
         }else{
-            DB::table('news')->insert(
+            DB::table('suggestions')->insert(
                 ['title' => $request['title'], 'content' => $request['content'] , 'user_id' =>  $request['user'] ]
             );
             return redirect()->back()->with('message', 'Upload successful!');
@@ -64,7 +64,7 @@ class PostController extends Controller
             }
             $imageName = time().'.'.$request->file('image')->getClientOriginalExtension();
 
-            DB::table('news')->insert(
+            DB::table('feedback')->insert(
                 ['title' => $request['title'], 'content' => $request['content'] , 'image' => $imageName, 'user_id' =>  $request['user'] ]
             );
 
@@ -72,7 +72,7 @@ class PostController extends Controller
 
             return redirect()->back()->with('message', 'Upload successful!');
         }else{
-            DB::table('news')->insert(
+            DB::table('feedback')->insert(
                 ['title' => $request['title'], 'content' => $request['content'] , 'user_id' =>  $request['user'] ]
             );
             return redirect()->back()->with('message', 'Upload successful!');
@@ -80,7 +80,14 @@ class PostController extends Controller
 
 
     }
-
+    public function suggestionsNew()
+    {
+        return view('Posts.suggestionsNew');
+    }
+    public function feedbackNew()
+    {
+        return view('Posts.feedbackNew');
+    }
     public function suggestions()
     {
         return view('Posts.suggestions');
