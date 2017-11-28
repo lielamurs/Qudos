@@ -56,6 +56,12 @@
             text-decoration: none;
             text-transform: uppercase;
         }
+
+        .panel-body{
+            word-wrap: break-word;
+            color: #111111;
+        }
+
     </style>
 </head>
 <body>
@@ -92,6 +98,32 @@
             </ul>
         </div>
     </nav>
+
+
+        <div class="col-sm-8 posts-main">
+            @foreach($posts as $post)
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">{{$post->title}}</div>
+
+                                <div class="panel-body">
+                                    <img src="uploads/{{$post->image}}"><br>
+
+                                    {{$post->content}}
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+
+
+        </div>
+
 </div>
 </body>
 </html>

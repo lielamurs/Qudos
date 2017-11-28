@@ -90,7 +90,9 @@ class PostController extends Controller
     }
     public function suggestions()
     {
-        return view('Posts.suggestions');
+        $posts = DB::table('suggestions')->get();
+
+        return view('Posts.suggestions', ['posts' => $posts]);
     }
     public function feedback()
     {
