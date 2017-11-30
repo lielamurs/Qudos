@@ -74,10 +74,10 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav links">
-                <li><a href="{{route('news')}}">News</a></li>
-                <li><a href="{{route('suggestions')}}">Suggestions</a></li>
-                <li><a href="{{route('feedback')}}">Feedback</a></li>
-                <li><a href="{{route('about')}}">About me</a></li>
+                <li><a href="{{route('news')}}"><strong>News</strong></a></li>
+                <li><a href="{{route('suggestions')}}"><strong>Suggestions</strong></a></li>
+                <li><a href="{{route('feedback')}}"><strong>Feedback</strong></a></li>
+                <li><a href="{{route('about')}}"><strong>About me</strong></a></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
@@ -93,6 +93,52 @@
             </ul>
         </div>
     </nav>
+    <div class="col-sm-8 posts-main">
+        @foreach($posts as $post)
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><strong>{{$post->title}}</strong></div>
+
+                            <div class="panel-body">
+                                <img src="uploads/{{$post->image}}"><br>
+
+                                <strong><p>{{$post->content}}</p></strong>
+
+                                @if(Auth::user())
+                                    <form class="form-horizontal" method="POST" action="{{ route('news.comment') }}">
+                                        {{ csrf_field() }}
+
+                                        <div class="form-group">
+                                            <label for="content">Comment:</label>
+                                            <textarea class="form-control" rows="5" id="content" name="content" required></textarea>
+                                        </div>
+                                        <input type="hidden" value="{{ csrf_token() }}" name="_token">
+
+                                        <input type="hidden" value="{{ Auth::user()->id}}" name="user">
+
+                                        <input type="hidden" value="{{ $post->id}}" name="post">
+
+                                        <button type="submit" class="btn btn-success" name="submit">Submit</button>
+                                    </form>
+                                @endif
+                                @foreach($comments as $comment)
+                                    @if($comment->feedback_id == $post->id)
+                                        <div class="container-fluid">
+                                            <strong><p>{{$comment->comment}}</p></strong>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+
+
+    </div>
 </div>
 </body>
 </html>

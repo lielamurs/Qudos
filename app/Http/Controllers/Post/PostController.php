@@ -44,6 +44,17 @@ class PostController extends Controller
 
 
     }
+    public function submitSuggestionComment(Request $request){
+
+        $request->validate([
+            'content' => 'required|string|max:500',
+        ]);
+        DB::table('suggestion_comments')->insert(
+            ['comment' => $request['content'] , 'user_id' =>  $request['user'], 'suggestion_id' => $request['post']]
+        );
+        return redirect()->back()->with('message', 'YES!');
+
+    }
     public function submitFeedback(Request $request){
 
         $request->validate([
@@ -80,6 +91,18 @@ class PostController extends Controller
 
 
     }
+
+    public function submitFeedbackComment(Request $request){
+
+        $request->validate([
+            'content' => 'required|string|max:500',
+        ]);
+            DB::table('feedback_comments')->insert(
+                ['comment' => $request['content'] , 'user_id' =>  $request['user'], 'feedback_id' => $request['post']]
+            );
+            return redirect()->back()->with('message', 'YES!');
+
+    }
     public function suggestionsNew()
     {
         return view('Posts.suggestionsNew');
@@ -90,12 +113,28 @@ class PostController extends Controller
     }
     public function suggestions()
     {
-        $posts = DB::table('suggestions')->get();
+        $posts = DB::table('suggestions')
+            //->join('users', 'suggestions.user_id', '=' , 'users.id')
+            ->get();
 
-        return view('Posts.suggestions', ['posts' => $posts]);
+        $comments = DB::table('suggestion_comments')
+            //->join('users', 'suggestion_comments.user_id', '=', 'users.id')
+            ->get();
+
+        //dd($posts);
+
+        return view('Posts.suggestions', ['posts' => $posts, 'comments' => $comments]);
     }
     public function feedback()
     {
-        return view('Posts.feedback');
+        $posts = DB::table('feedback')
+            //->join('users', 'feedback.user_id', '=' , 'users.id')
+            ->get();
+
+        $comments = DB::table('feedback_comments')
+            //->join('users', 'feedback_comments.user_id', '=', 'users.id')
+            ->get();
+
+        return view('Posts.feedback', ['posts' => $posts, 'comments' => $comments]);
     }
 }

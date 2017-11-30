@@ -40,6 +40,18 @@ class NewsController extends Controller
         return redirect()->back()->with('message', 'Upload successful!');
     }
 
+    public function submitNewsComment(Request $request){
+
+        $request->validate([
+            'content' => 'required|string|max:500',
+        ]);
+        DB::table('news_comments')->insert(
+            ['comment' => $request['content'] , 'user_id' =>  $request['user'], 'news_id' => $request['post']]
+        );
+        return redirect()->back()->with('message', 'YES!');
+
+    }
+
     public function index()
     {
         return view('Posts.news');
