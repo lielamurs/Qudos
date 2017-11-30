@@ -124,7 +124,7 @@
                                     </form>
                                 @endif
                                 @foreach($comments as $comment)
-                                    @if($comment->feedback_id == $post->id)
+                                    @if($comment->news_id == $post->id)
                                         <div class="container-fluid">
                                             <strong><p>{{$comment->comment}}</p></strong>
                                         </div>

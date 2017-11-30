@@ -133,7 +133,6 @@
 
                                             <button type="submit" class="btn btn-success" name="submit">Submit</button>
                                         </form>
-                                        {{$post->id}}
                                     @endif
                                     @foreach($comments as $comment)
                                         @if($comment->suggestion_id == $post->id)

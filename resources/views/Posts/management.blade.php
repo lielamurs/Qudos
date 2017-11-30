@@ -102,7 +102,8 @@
 
 
         <div class="col-sm-8 posts-main">
-            @foreach($posts as $post)
+            <strong>NEWS</strong>
+            @foreach($news as $post)
                 <div class="container">
                     <div class="row">
                         <div class="col-md-8 col-md-offset-2">
@@ -113,7 +114,18 @@
                                     <img src="uploads/{{$post->image}}"><br>
 
                                     <p>{{$post->content}}</p>
+                                    <form class="form-horizontal" method="POST" action="{{ route('management.delete') }}">
+                                        {{ csrf_field() }}
+                                        <input type="hidden" value="{{ csrf_token() }}" name="_token">
 
+                                        <input type="hidden" value="{{ Auth::user()->id}}" name="user">
+
+                                        <input type="hidden" value="{{ $post->id}}" name="post">
+
+                                        <input type="hidden" value="news" name="type">
+
+                                        <button type="submit" class="btn btn-danger" name="delete">Delete</button>
+                                    </form>
 
                                 </div>
                             </div>
@@ -124,6 +136,78 @@
 
 
         </div>
+
+    <div class="col-sm-8 posts-main">
+        <strong>SUGGESTIONS</strong>
+        @foreach($suggestions as $post)
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">{{$post->title}}</div>
+
+                            <div class="panel-body">
+                                <img src="uploads/{{$post->image}}"><br>
+
+                                <p>{{$post->content}}</p>
+                                <form class="form-horizontal" method="POST" action="{{ route('management.delete') }}">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" value="{{ csrf_token() }}" name="_token">
+
+                                    <input type="hidden" value="{{ Auth::user()->id}}" name="user">
+
+                                    <input type="hidden" value="{{ $post->id}}" name="post">
+
+                                    <input type="hidden" value="suggestions" name="type">
+
+                                    <button type="submit" class="btn btn-danger" name="delete">Delete</button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+
+
+    </div>
+
+    <div class="col-sm-8 posts-main">
+        <strong>FEEDBACK</strong>
+        @foreach($feedbacks as $post)
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">{{$post->title}}</div>
+
+                            <div class="panel-body">
+                                <img src="uploads/{{$post->image}}"><br>
+
+                                <p>{{$post->content}}</p>
+                                <form class="form-horizontal" method="POST" action="{{ route('management.delete') }}">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" value="{{ csrf_token() }}" name="_token">
+
+                                    <input type="hidden" value="{{ Auth::user()->id}}" name="user">
+
+                                    <input type="hidden" value="{{ $post->id}}" name="post">
+
+                                    <input type="hidden" value="feedback" name="type">
+
+                                    <button type="submit" class="btn btn-danger" name="delete">Delete</button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+
+
+    </div>
 
 </div>
 </body>

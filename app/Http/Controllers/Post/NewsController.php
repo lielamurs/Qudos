@@ -54,6 +54,14 @@ class NewsController extends Controller
 
     public function index()
     {
-        return view('Posts.news');
+        $posts = DB::table('news')
+            //->join('users', 'feedback.user_id', '=' , 'users.id')
+            ->get();
+
+        $comments = DB::table('news_comments')
+            //->join('users', 'feedback_comments.user_id', '=', 'users.id')
+            ->get();
+
+        return view('Posts.news', ['posts' => $posts, 'comments' => $comments]);
     }
 }

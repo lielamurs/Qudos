@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -27,6 +28,18 @@ class AdminController extends Controller
     }
 
     public function management(){
-        return view('management');
+        $news = DB::table('news')
+            //->join('users', 'feedback.user_id', '=' , 'users.id')
+            ->get();
+
+        $feedback = DB::table('feedback')
+            //->join('users', 'feedback_comments.user_id', '=', 'users.id')
+            ->get();
+
+        $suggestions = DB::table('suggestions')
+            //->join('users', 'feedback_comments.user_id', '=', 'users.id')
+            ->get();
+
+        return view('Posts.management', ['news' => $news, 'feedbacks' => $feedback, 'suggestions'=> $suggestions]);
     }
 }

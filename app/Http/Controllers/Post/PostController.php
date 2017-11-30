@@ -137,4 +137,13 @@ class PostController extends Controller
 
         return view('Posts.feedback', ['posts' => $posts, 'comments' => $comments]);
     }
+
+
+    public function manage(Request $request){
+        DB::table($request['type'])
+            ->where('id', '=', $request['post'])
+            ->delete();
+
+        return redirect()->back()->with('message', 'YES!');
+    }
 }

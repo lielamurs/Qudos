@@ -18,7 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/about', 'Post\NewsController@index')->name('about');
+Route::get('/about', 'HomeController@about')->name('about');
 Route::prefix('admin')->group(function(){
     Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
     Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
@@ -26,7 +26,7 @@ Route::prefix('admin')->group(function(){
 });
 
 Route::prefix('news')->group(function(){
-    Route::post('/', 'Post\NewsController@submitNews')->name('news.submit');
+    Route::post('/admin', 'Post\NewsController@submitNews')->name('news.submit');
     Route::get('/', 'Post\NewsController@index')->name('news');
     Route::post('/', 'Post\NewsController@submitNewsComment')->name('news.comment');
 });
@@ -42,3 +42,7 @@ Route::prefix('feedback')->group(function(){
     Route::get('/new', 'Post\PostController@feedbackNew')->name('feedback.new');
     Route::post('/', 'Post\PostController@submitFeedbackComment')->name('feedback.comment');
 });
+
+
+Route::get('/manage', 'AdminController@management')->name('manage');
+Route::post('/manage', 'Post\PostController@manage')->name('management.delete');
