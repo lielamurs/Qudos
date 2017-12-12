@@ -56,6 +56,19 @@
             text-decoration: none;
             text-transform: uppercase;
         }
+
+        textarea{
+            margin-left: 50px;
+            margin-right: 50px;
+            max-width: 600px;
+        }
+
+
+        .panel-body{
+            word-wrap: break-word;
+            color: #111111;
+        }
+
     </style>
 </head>
 <body>
@@ -123,13 +136,22 @@
                                         <button type="submit" class="btn btn-success" name="submit">Submit</button>
                                     </form>
                                 @endif
+
                                 @foreach($comments as $comment)
                                     @if($comment->news_id == $post->id)
                                         <div class="container-fluid">
                                             <strong><p>{{$comment->comment}}</p></strong>
+                                            @if(Auth::user())
+                                                @if(Auth::user()->id == $comment->user_id)
+                                                    <form method="get" action="{{ route('edit.comment',['type'=>'news_comments','id'=>$comment->id,'content'=>$comment->comment]) }}">
+                                                        <button type="submit" class="btn btn-success" >Submit</button>
+                                                    </form>
+                                                @endif
+                                            @endif
                                         </div>
                                     @endif
                                 @endforeach
+
                             </div>
                         </div>
                     </div>

@@ -46,3 +46,5 @@ Route::prefix('feedback')->group(function(){
 
 Route::get('/manage', 'AdminController@management')->name('manage');
 Route::post('/manage', 'Post\PostController@manage')->name('management.delete');
+Route::get('/edit/{type}/{id}/{content}', 'Post\PostController@editComment')->name('edit.comment');
+Route::post('/edit', 'Post\postController@editApply')->name('edit.apply');

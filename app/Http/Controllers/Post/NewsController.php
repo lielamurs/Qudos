@@ -20,9 +20,9 @@ class NewsController extends Controller
         $ext = $request->file('image')->getClientOriginalExtension();
 
         switch ($ext){
-            case "png":
+            case "PNG":
                 break;
-            case "jpeg":
+            case "JPEG":
                 break;
             default:
                 return redirect()->back()->with('message', 'Invalid file format!');
@@ -48,6 +48,24 @@ class NewsController extends Controller
         DB::table('news_comments')->insert(
             ['comment' => $request['content'] , 'user_id' =>  $request['user'], 'news_id' => $request['post']]
         );
+
+        return redirect()->back()->with('message', 'YES!');
+
+    }
+
+    public function editNewsComment(Request $request){
+
+        $request->validate([
+            'content' => 'required|string|max:500',
+        ]);
+
+        DB::table('news_comments')
+            ->where('user_id',  $request['user'])
+            ->where('news_id', $request['post'])
+            ->where('id', $request['id'])
+            ->update('comment', $request['content']);
+
+
         return redirect()->back()->with('message', 'YES!');
 
     }
@@ -55,12 +73,13 @@ class NewsController extends Controller
     public function index()
     {
         $posts = DB::table('news')
-            //->join('users', 'feedback.user_id', '=' , 'users.id')
+            ->join('admins', 'news.admin_id', '=' , 'admins.id')
             ->get();
 
         $comments = DB::table('news_comments')
-            //->join('users', 'feedback_comments.user_id', '=', 'users.id')
+            //->join('users', 'news_comments.user_id', '=', 'users.id')
             ->get();
+
 
         return view('Posts.news', ['posts' => $posts, 'comments' => $comments]);
     }
