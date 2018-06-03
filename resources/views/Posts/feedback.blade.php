@@ -108,7 +108,7 @@
         <div class="col-sm-8 posts-main">
             @if(Auth::user())
                 <div class="new">
-                    <a href="{{ route('feedback.new') }}"><strong>New suggestion</strong></a>
+                    <a href="{{ route('feedback.new') }}"><strong>New feedback</strong></a>
                 </div>
             @endif
             @foreach($posts as $post)
