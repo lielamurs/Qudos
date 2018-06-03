@@ -33,16 +33,14 @@ class Profiler
     private $collectors = array();
 
     private $logger;
-
-    /**
-     * @var bool
-     */
+    private $initiallyEnabled = true;
     private $enabled = true;
 
-    public function __construct(ProfilerStorageInterface $storage, LoggerInterface $logger = null)
+    public function __construct(ProfilerStorageInterface $storage, LoggerInterface $logger = null, bool $enable = true)
     {
         $this->storage = $storage;
         $this->logger = $logger;
+        $this->initiallyEnabled = $this->enabled = $enable;
     }
 
     /**
@@ -168,6 +166,14 @@ class Profiler
         }
 
         return $profile;
+    }
+
+    public function reset()
+    {
+        foreach ($this->collectors as $collector) {
+            $collector->reset();
+        }
+        $this->enabled = $this->initiallyEnabled;
     }
 
     /**

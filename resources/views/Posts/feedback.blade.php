@@ -11,6 +11,11 @@
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
         <!-- Styles -->
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
         <style>
             html, body {
                 background-color: #fff;
@@ -35,18 +40,11 @@
                 position: relative;
             }
 
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
+            .title > a{
                 font-size: 84px;
+                text-decoration: none;
+                color: #636b6f;
+                padding-right: 100%;
             }
 
             .links > a {
@@ -59,37 +57,112 @@
                 text-transform: uppercase;
             }
 
-            .m-b-md {
-                margin-bottom: 30px;
+            textarea{
+                margin-left: 50px;
+                margin-right: 50px;
+                max-width: 600px;
             }
+
+            .panel-body{
+                word-wrap: break-word;
+                color: #111111;
+            }
+
         </style>
     </head>
     <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-                        <a href="{{ route('register') }}">Register</a>
-                    @endauth
+    <div class="top-left links">
+        <div class="title">
+            <a href="{{ url('/') }}">Qudos</a>
+        </div>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+            </div>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav links">
+                    <li><a href="{{route('news')}}"><strong>News</strong></a></li>
+                    <li><a href="{{route('suggestions')}}"><strong>Suggestions</strong></a></li>
+                    <li><a href="{{route('feedback')}}"><strong>Feedback</strong></a></li>
+                    <li><a href="{{route('about')}}"><strong>About me</strong></a></li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    @if (Route::has('login'))
+                            @auth
+                                <li><a href="{{ url('/home') }}">Home</a></li>
+                                @else
+                                    <li><a href="{{ route('login') }}">Login</a></li>
+                                    <li><a href="{{ route('register') }}">Register</a></li>
+                                    @endauth
+
+                    @endif
+                </ul>
+                </div>
+        </nav>
+        <div class="col-sm-8 posts-main">
+            @if(Auth::user())
+                <div class="new">
+                    <a href="{{ route('feedback.new') }}"><strong>New feedback</strong></a>
                 </div>
             @endif
+            @foreach($posts as $post)
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+                            <div class="panel panel-default">
+                                <div class="panel-heading"><strong>{{$post->title}}</strong></div>
 
-            <div class="content">
-                <div class="title m-b-md">
-                    Qudos
-                </div>
+                                <div class="panel-body">
+                                    <img src="uploads/{{$post->image}}"><br>
 
-                <div class="links">
-                    <a href="{{route('home')}}">Home</a>
-                    <a href="{{route('news')}}">News</a>
-                    <a href="{{route('suggestions')}}">Suggestions</a>
-                    <a href="{{route('feedback')}}">Feedback</a>
-                    <a href="{{route('about')}}">About me</a>
+                                    <strong><p>{{$post->content}}</p></strong>
+
+                                    @if(Auth::user())
+                                        <form class="form-horizontal" method="POST" action="{{ route('feedback.comment') }}">
+                                            {{ csrf_field() }}
+
+                                            <div class="form-group">
+                                                <label for="content">Comment:</label>
+                                                <textarea class="form-control" rows="5" id="content" name="content" required></textarea>
+                                            </div>
+                                            <input type="hidden" value="{{ csrf_token() }}" name="_token">
+
+                                            <input type="hidden" value="{{ Auth::user()->id}}" name="user">
+
+                                            <input type="hidden" value="{{ $post->id}}" name="post">
+
+                                            <button type="submit" class="btn btn-success" name="submit">Submit</button>
+                                        </form>
+                                    @endif
+                                    @foreach($comments as $comment)
+                                        @if($comment->feedback_id == $post->id)
+                                            <div class="container-fluid">
+                                                <strong><p>{{$comment->comment}}</p></strong>
+                                                @if(Auth::user())
+                                                    @if(Auth::user()->id == $comment->user_id)
+                                                        <form method="get" action="{{ route('edit.comment',['type'=>'feedback_comments','id'=>$comment->id,'content'=>$comment->comment]) }}">
+                                                            <button type="submit" class="btn btn-success" >Submit</button>
+                                                        </form>
+                                                    @endif
+                                                @endif
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            @endforeach
+
+
         </div>
+    </div>
     </body>
 </html>

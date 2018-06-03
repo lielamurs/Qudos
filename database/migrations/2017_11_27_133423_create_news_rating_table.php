@@ -16,9 +16,9 @@ class CreateNewsRatingTable extends Migration
         Schema::create('news_rating', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('rating');
-            $table->integer('admin_id')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->integer('news_id')->unsigned();
-            $table->foreign('admin_id')->references('id')->on('admins');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('news_id')->references('id')->on('news');
             $table->timestamps();
         });

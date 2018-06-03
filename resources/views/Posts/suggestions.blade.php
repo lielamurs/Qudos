@@ -1,95 +1,170 @@
 <!doctype html>
 <html lang="{{ app()->getLocale() }}">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+    <title>Laravel</title>
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
-                margin: 0;
-            }
+    <!-- Styles -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-            .full-height {
-                height: 100vh;
-            }
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
+    <style>
+        html, body {
+            background-color: #fff;
+            color: #636b6f;
+            font-family: 'Raleway', sans-serif;
+            font-weight: 100;
+            height: 100vh;
+            margin: 0;
+        }
 
-            .position-ref {
-                position: relative;
-            }
+        .full-height {
+            height: 100vh;
+        }
 
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
+        .panel-body img {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            margin: auto;
+        }
 
-            .content {
-                text-align: center;
-            }
+        .position-ref {
+            position: relative;
+        }
 
-            .title {
-                font-size: 84px;
-            }
+        .title > a{
+            font-size: 84px;
+            text-decoration: none;
+            color: #636b6f;
+            padding-right: 100%;
+        }
 
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
+        .links > a {
+            color: #636b6f;
+            padding: 0 25px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: .1rem;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
 
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
+        .panel-body{
+            word-wrap: break-word;
+            color: #111111;
+        }
+
+        textarea{
+            margin-left: 50px;
+            margin-right: 50px;
+            max-width: 600px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="top-left links">
+    <div class="title">
+        <a href="{{ url('/') }}">Qudos</a>
+    </div>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav links">
+                <li><a href="{{route('news')}}"><strong>News</strong></a></li>
+                <li><a href="{{route('suggestions')}}"><strong>Suggestions</strong></a></li>
+                <li><a href="{{route('feedback')}}"><strong>Feedback</strong></a></li>
+                <li><a href="{{route('about')}}"><strong>About me</strong></a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                @if (Route::has('login'))
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-                        <a href="{{ route('register') }}">Register</a>
-                    @endauth
+                        <li><a href="{{ url('/home') }}">Home</a></li>
+                        @else
+                            <li><a href="{{ route('login') }}">Login</a></li>
+                            <li><a href="{{ route('register') }}">Register</a></li>
+                            @endauth
+                        @endif
+            </ul>
+        </div>
+    </nav>
+        <div class="col-sm-8 posts-main">
+            @if(Auth::user())
+                <div class="new">
+                    <a href="{{ route('suggestions.new') }}"><strong>New suggestion</strong></a>
                 </div>
             @endif
+            @foreach($posts as $post)
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+                            <div class="panel panel-default">
+                                <div class="panel-heading"><strong>{{$post->title}}</strong></div>
 
-            <div class="content">
-                <div class="title m-b-md">
-                    Qudos
-                </div>
+                                <div class="panel-body">
+                                    <img src="uploads/{{$post->image}}"><br>
 
-                <div class="links">
-                    <a href="{{route('home')}}">Home</a>
-                    <a href="{{route('news')}}">News</a>
-                    <a href="{{route('suggestions')}}">Suggestions</a>
-                    <a href="{{route('feedback')}}">Feedback</a>
-                    <a href="{{route('about')}}">About me</a>
+                                    <strong><p>{{$post->content}}</p></strong>
+
+                                    @if(Auth::user())
+                                        <form class="form-horizontal" method="POST" action="{{ route('suggestion.comment') }}">
+                                            {{ csrf_field() }}
+
+                                            <div class="form-group">
+                                                <label for="content">Comment:</label>
+                                                <textarea class="form-control" rows="5" id="content" name="content" required></textarea>
+                                            </div>
+                                            <input type="hidden" value="{{ csrf_token() }}" name="_token">
+
+                                            <input type="hidden" value="{{ Auth::user()->id}}" name="user">
+
+                                            <input type="hidden" value="{{ $post->id}}" name="post">
+
+                                            <button type="submit" class="btn btn-success" name="submit">Submit</button>
+                                        </form>
+                                    @endif
+                                    @foreach($comments as $comment)
+                                        @if($comment->suggestion_id == $post->id)
+
+                                            <div class="container-fluid">
+                                                <strong><p>{{$comment->comment}}</p></strong>
+                                                @if(Auth::user())
+                                                    @if(Auth::user()->id == $comment->user_id)
+                                                        <form method="get" action="{{ route('edit.comment',['type'=>'suggestion_comments','id'=>$comment->id,'content'=>$comment->comment]) }}">
+                                                            <button type="submit" class="btn btn-success" >Submit</button>
+                                                        </form>
+                                                    @endif
+                                                @endif
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            @endforeach
+
+
         </div>
-    </body>
+
+</div>
+</body>
 </html>
